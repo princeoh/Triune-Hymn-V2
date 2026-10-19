@@ -10,14 +10,16 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v3
-      - name: Check files
+      - name: Create local.properties
         run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          echo "sdk.dir=$ANDROID_HOME" > ./Triune-Hymn-V2/local.properties 2>/dev/null || true
+          echo "sdk.dir=$ANDROID_HOME" > ./Triune-Hymn-V2/Triune-Hymn-V2/local.properties 2>/dev/null || true
+          cat local.properties
           ls -la
-          ls -la app || true
-          cat app/build.gradle.kts 2>/dev/null | head -n 20 || cat app/build.gradle | head -n 20 || echo "no app build file"
-      - name: Build APK with Gradle (no wrapper needed)
+      - name: Build APK
         run: gradle :app:assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
         with:
           name: Triune-Hymn-V2-APK
-          path: app/build/outputs/apk/debug/*.apk
+          path: "**/build/outputs/apk/debug/*.apk"
