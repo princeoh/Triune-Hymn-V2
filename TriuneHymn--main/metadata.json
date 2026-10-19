@@ -1,0 +1,6 @@
+{
+  "name": "TRIUNE HYMN",
+  "description": "Modern Christian hymnal app for TRIUNE EMBASSY GLOBAL CHURCH featuring hymn library, offline lyrics, audio player, categories, and favorites.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
