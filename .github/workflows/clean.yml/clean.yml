@@ -1,0 +1,17 @@
+name: clean
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          rm -rf .github/workflows/flatten.yml
+          ls .github/workflows/
+          git config user.name "princeoh"
+          git config user.email "princeoh@users.noreply.github.com"
+          git add -A
+          git commit -m "Remove bad flatten folder" || true
+          git push
