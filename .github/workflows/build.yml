@@ -1,33 +1,28 @@
 name: build
 on: workflow_dispatch
-permissions:
-  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-          
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        
+
       - name: Create local.properties
         run: echo "sdk.dir=$ANDROID_HOME" > local.properties
-        
-      - uses: gradle/actions/setup-gradle@v4
-      
+
       - name: Make gradlew executable
-        run: chmod +x ./gradlew 2>/dev/null || echo "no gradlew"
-        
+        run: chmod +x ./gradlew
+
+      - uses: gradle/actions/setup-gradle@v4
+
       - name: Build Release APK
-        run: |
-          if [ -f ./gradlew ]; then ./gradlew assembleRelease; else gradle assembleRelease; fi
-          
+        run: ./gradlew assembleRelease
+
       - uses: actions/upload-artifact@v4
         with:
           name: release-apk
