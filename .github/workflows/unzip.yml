@@ -1,4 +1,4 @@
-name: Flatten
+name: FlattenFinal
 on: workflow_dispatch
 
 jobs:
@@ -9,15 +9,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          FOLDER="TriuneHymn--main"
-          if [ -d "$FOLDER" ]; then
-            shopt -s dotglob
-            mv $FOLDER/* .
-            rm -rf $FOLDER
+          ls -la
+          if [ -d "TriuneHymn--main" ]; then
+            cp -r TriuneHymn--main/. .
+            rm -rf TriuneHymn--main
+            echo "Flattened"
           fi
-          rm -rf .github/workflows/unzip.yml .github/workflows/flatten.yml source.zip
+          ls -la
+          rm -rf source.zip
           git config user.name "princeoh"
           git config user.email "princeoh@users.noreply.github.com"
           git add -A
-          git commit -m "Flatten to root" || true
+          git commit -m "Force flatten to root" || true
           git push
