@@ -1,0 +1,16 @@
+name: inspect
+on: workflow_dispatch
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo "=== ROOT ==="
+          ls -la
+          echo "=== ALL FILES ==="
+          find . -maxdepth 3 -type f | head -n 200
+          echo "=== WHERE IS LIB? ==="
+          find . -type d -name "lib"
+          echo "=== WHERE IS PUBSPEC? ==="
+          find . -name "pubspec.yaml"
