@@ -10,12 +10,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v3
-      - run: |
-          GRADLEW=$(find . -name "gradlew" -type f | head -n 1)
-          echo "Found gradlew at: $GRADLEW"
-          chmod +x "$GRADLEW"
-          "$GRADLEW" assembleDebug --stacktrace
+      - name: Check files
+        run: |
+          ls -la
+          ls -la app || true
+          cat app/build.gradle.kts 2>/dev/null | head -n 20 || cat app/build.gradle | head -n 20 || echo "no app build file"
+      - name: Build APK with Gradle (no wrapper needed)
+        run: gradle :app:assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
         with:
           name: Triune-Hymn-V2-APK
-          path: "**/build/outputs/apk/debug/*.apk"
+          path: app/build/outputs/apk/debug/*.apk
