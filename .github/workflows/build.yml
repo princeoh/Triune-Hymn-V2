@@ -17,16 +17,16 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - name: Build Release APK
+      - name: Build DEBUG APK (Will Install!)
         run: |
           if [ -f ./gradlew ]; then
             chmod +x ./gradlew
-            ./gradlew assembleRelease
+            ./gradlew assembleDebug
           else
-            gradle assembleRelease
+            gradle assembleDebug
           fi
 
       - uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: app/build/outputs/apk/release/*.apk
+          path: app/build/outputs/apk/debug/*.apk
