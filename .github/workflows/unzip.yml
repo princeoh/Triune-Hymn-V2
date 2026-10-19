@@ -1,4 +1,4 @@
-name: FixRoot
+name: FixRootFinal
 on: workflow_dispatch
 jobs:
   fix:
@@ -8,18 +8,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          mv TriuneHymn--main/app ./app || true
-          mv TriuneHymn--main/gradle ./gradle || true
-          mv TriuneHymn--main/build.gradle.kts ./ || true
-          mv TriuneHymn--main/settings.gradle.kts ./ || true
-          mv TriuneHymn--main/gradle.properties ./ || true
-          mv TriuneHymn--main/README.md ./README2.md || true
-          mv TriuneHymn--main/.gitignore ./ || true
-          mv TriuneHymn--main/metadata.json ./ || true
+          set -x
+          ls -la
+          echo "--- inside nested ---"
+          ls -la TriuneHymn--main || echo "no nested folder at root, check TriuneHymn--main"
+          # Remove existing app at root if any to allow move
+          rm -rf app gradle
+          rm -f build.gradle.kts settings.gradle.kts gradle.properties .gitignore metadata.json
+          # Move everything from nested to root
+          mv TriuneHymn--main/* . || true
+          mv TriuneHymn--main/.* . || true
           rm -rf TriuneHymn--main
-          ls
+          ls -la
           git config user.name "princeoh"
           git config user.email "princeoh@users.noreply.github.com"
           git add -A
-          git commit -m "Move app to root" || true
+          git commit -m "Final root fix" || echo "nothing to commit"
           git push
